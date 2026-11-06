@@ -26,7 +26,6 @@ jobs:
 
       - name: Fetch Stockfish 11 Source
         run: |
-          echo "Downloading Stockfish 11..."
           curl -sL -o sf.zip https://github.com/official-stockfish/Stockfish/archive/refs/tags/sf_11.zip
           unzip -q sf.zip
           mkdir -p app/src/main/cpp/stockfish
@@ -46,10 +45,10 @@ jobs:
         with:
           name: orsted-sf11-apk
           path: app/build/outputs/apk/release/*.apk
-          retention-days: 14
 
-      - name: Upload build log
-        if: failure()
+      # THIS NEW STEP RUNS EVEN IF THE WRAPPER FAILS
+      - name: Upload Build Log (Always)
+        if: always() 
         uses: actions/upload-artifact@v4
         with:
           name: build-log
